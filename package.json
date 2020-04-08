@@ -18,5 +18,8 @@
   "homepage": "https://github.com/thenrikie/temp-test-ci-stuff#readme",
   "dependencies": {
     "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "semantic-release": "^17.0.4"
   }
 }
