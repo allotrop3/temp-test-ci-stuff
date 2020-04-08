@@ -3,19 +3,36 @@ jobs:
   build:
     docker:
       - image: circleci/node:13.2.0
+    working_directory: ~/temp-test-ci-stuff
     steps:
       - checkout
       - run:
           name: Installing dependencies
           command: npm install
+      - persist_to_workspace:
+          root: ~/temp-test-ci-stuff
+          paths:
+            - ./*
   test:
     docker:
       - image: circleci/node:13.2.0
+    working_directory: ~/temp-test-ci-stuff
     steps:
+      - attach_workspace:
+          at: ./
       - run:
           name: Running tests
           command: npm test
-
+  release:
+    docker:
+      - image: circleci/node:13.2.0
+    working_directory: ~/temp-test-ci-stuff
+    steps:
+      - attach_workspace:
+          at: ./
+      - run:
+          name: Creating release
+          command: npx semantic-release
 workflows:
   version: 2
   main:
@@ -30,3 +47,11 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - release:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              only: master
