@@ -1,4 +1,8 @@
 {
+  branches: [
+    {name: 'release'},
+    {name: 'prerelease', channel: 'pre/rc', prerelease: 'rc'}
+  ],
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/github",
